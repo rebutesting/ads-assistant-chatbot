@@ -18,11 +18,22 @@ const BOT_RESPONSE_DELAY = 600;
 const TYPING_DELAY = 500;
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Check if already authenticated on initial load
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('chatbot_authenticated') === 'true';
+    }
+    return false;
+  });
+  
+  const handleAuthenticated = useCallback(() => {
+    sessionStorage.setItem('chatbot_authenticated', 'true');
+    setIsAuthenticated(true);
+  }, []);
   
   // Show password protection if not authenticated
   if (!isAuthenticated) {
-    return <PasswordProtection onAuthenticated={() => setIsAuthenticated(true)} />;
+    return <PasswordProtection onAuthenticated={handleAuthenticated} />;
   }
   // State management
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);

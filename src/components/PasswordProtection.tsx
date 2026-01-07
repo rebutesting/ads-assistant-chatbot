@@ -12,20 +12,10 @@ export const PasswordProtection = memo(({ onAuthenticated }: PasswordProtectionP
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {
-    // Check if already authenticated
-    const isAuth = sessionStorage.getItem('chatbot_authenticated');
-    if (isAuth === 'true') {
-      onAuthenticated();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (password === CORRECT_PASSWORD) {
-      sessionStorage.setItem('chatbot_authenticated', 'true');
       setError(false);
       onAuthenticated();
     } else {
