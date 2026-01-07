@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { MessageBubble } from "./components/MessageBubble";
 import { QuickActions } from "./components/QuickActions";
+import { PasswordProtection } from "./components/PasswordProtection";
 import { Message, ConversationFlow } from "./types";
 import { conversationFlows } from "./conversationFlows";
 
@@ -17,6 +18,12 @@ const BOT_RESPONSE_DELAY = 600;
 const TYPING_DELAY = 500;
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  // Show password protection if not authenticated
+  if (!isAuthenticated) {
+    return <PasswordProtection onAuthenticated={() => setIsAuthenticated(true)} />;
+  }
   // State management
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [activeFlow, setActiveFlow] = useState<ConversationFlow | null>(null);
