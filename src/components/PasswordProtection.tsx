@@ -18,7 +18,8 @@ export const PasswordProtection = memo(({ onAuthenticated }: PasswordProtectionP
     if (isAuth === 'true') {
       onAuthenticated();
     }
-  }, [onAuthenticated]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
